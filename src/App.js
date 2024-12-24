@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   // Backend URL from environment variable or default to localhost
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://127.0.0.1:8000';
+  const BACKEND_URL = "https://back-sentiment-a8a0drexhdanh6bw.centralindia-01.azurewebsites.net/";
 
   const handleLogin = (e) => {
     e.preventDefault();
