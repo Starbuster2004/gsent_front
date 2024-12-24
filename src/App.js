@@ -8,16 +8,12 @@ function App() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // These should match your backend USERS dictionary
-  const VALID_CREDENTIALS = {
-    username: "admin",
-    password: "secretpassword123"
-  };
+  // Backend URL from environment variable or default to localhost
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://127.0.0.1:8000';
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (credentials.username === VALID_CREDENTIALS.username && 
-        credentials.password === VALID_CREDENTIALS.password) {
+    if (credentials.username && credentials.password) {
       setIsLoggedIn(true);
       setError('');
     } else {
@@ -37,10 +33,10 @@ function App() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/analyze', {
+      const response = await fetch(`${BACKEND_URL}/analyze`, {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${btoa(`${VALID_CREDENTIALS.username}:${VALID_CREDENTIALS.password}`)}`
+          'Authorization': `Basic ${btoa(`${credentials.username}:${credentials.password}`)}`
         },
         body: formData
       });
@@ -67,10 +63,6 @@ function App() {
     return (
       <div style={{ maxWidth: '400px', margin: '40px auto', padding: '20px' }}>
         <h2>Login</h2>
-        {/* For testing purposes, showing the valid credentials */}
-        <p style={{ color: 'gray', fontSize: '14px' }}>
-          Use: username: "admin" / password: "secretpassword123"
-        </p>
         <form onSubmit={handleLogin}>
           <div>
             <input
